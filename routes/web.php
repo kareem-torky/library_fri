@@ -82,4 +82,5 @@ Route::get('/books/show/{id}', 'BookController@show')->name('books.show');
 // Route::get('/books/search/{word}', 'BookController@search')->name('books.search');
 
 
-
+// /message/send MessageController @ send
+Route::post('/message/send', 'MessageController@send')->name('message.send');
