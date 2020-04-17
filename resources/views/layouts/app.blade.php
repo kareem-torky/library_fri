@@ -33,9 +33,8 @@
         @endguest
 
         @auth
-
         <li class="nav-item">
-          <a class="nav-link" href="#">{{ Auth::user()->name }}</a>
+          <a class="nav-link" href="#">{{ Auth::user()->role }} : {{ Auth::user()->name }}</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('auth.logout') }}">Logout</a>

@@ -40,8 +40,10 @@
     <a href="{{ route('books.show', $book->id) }}" class="btn btn-primary">Show</a>
 
     @auth
-    <a href="{{ route('books.edit', $book->id) }}" class="btn btn-info">Edit</a>
-    <a href="{{ route('books.delete', $book->id) }}" class="btn btn-danger">Delete</a>
+      <a href="{{ route('books.edit', $book->id) }}" class="btn btn-info">Edit</a>
+      @if( Auth::user()->role == 'admin' )
+        <a href="{{ route('books.delete', $book->id) }}" class="btn btn-danger">Delete</a>
+      @endif
     @endauth 
 
   @endforeach

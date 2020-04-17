@@ -28,20 +28,23 @@ Route::middleware('userAuth')->group(function() {
     // logout
     Route::get('/logout', 'AuthController@logout')->name('auth.logout');
 
-    // Delete
-    Route::get('/authors/delete/{id}', 'AuthorController@delete')->name('authors.delete');
 
-    // Delete
-    Route::get('/books/delete/{id}', 'BookController@delete')->name('books.delete');
+    Route::middleware('isAdmin')->group(function(){
+        // Delete
+        Route::get('/authors/delete/{id}', 'AuthorController@delete')->name('authors.delete');
+    
+        // Delete
+        Route::get('/books/delete/{id}', 'BookController@delete')->name('books.delete');
+    });
 
     
-// Create 
-Route::get('/authors/create', 'AuthorController@create')->name('authors.create');
-Route::post('/authors/store', 'AuthorController@store')->name('authors.store');
+    // Create 
+    Route::get('/authors/create', 'AuthorController@create')->name('authors.create');
+    Route::post('/authors/store', 'AuthorController@store')->name('authors.store');
 
-// Update
+    // Update
     Route::get('/authors/edit/{id}', 'AuthorController@edit')->name('authors.edit');    
-Route::post('/authors/update/{id}', 'AuthorController@update')->name('authors.update');
+    Route::post('/authors/update/{id}', 'AuthorController@update')->name('authors.update');
 
     // Create 
     Route::get('/books/create', 'BookController@create')->name('books.create');

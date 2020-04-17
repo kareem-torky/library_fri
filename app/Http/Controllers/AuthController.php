@@ -22,11 +22,13 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        Auth::login($user);
 
         return redirect( route('books.index') );
     }
