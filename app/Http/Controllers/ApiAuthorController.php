@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Author;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ApiAuthorController extends Controller
 {
     public function index()
     {
-        $authors = Author::get();
+        $authors = Author::with('books')->get();
 
         return response()->json($authors);
     }
 
     public function show($id)
     {
-        $author = Author::find($id);
+        $author = Author::with('books')->find($id);
 
         return response()->json($author);
 
@@ -25,6 +26,18 @@ class ApiAuthorController extends Controller
     public function store(Request $request)
     {
         // validation
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:100',
+            'bio' => 'required|string',
+            'img' => 'required|image|mimes:png,jpg,jpeg|max:2048'
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()		
+            ]);
+        }
+    
 
         // move image to public/uploads
         $img = $request->img;
@@ -46,6 +59,17 @@ class ApiAuthorController extends Controller
     public function update($id, Request $request)
     {
         //validation
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:100',
+            'bio' => 'required|string',
+            'img' => 'nullable|image|mimes:png,jpg,jpeg|max:2048'
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()		
+            ]);
+        }
 
         $author = Author::find($id);
         $name = $author->img;
